@@ -6,10 +6,25 @@
 #include <stdio.h>
 #include <unistd.h>
 #include <stdlib.h>
+#include <sys/wait.h>
 
 int main(int argc, char* argv[])
 {
-    // Your code here    
+    // Your code here
+    printf("Parent process!\n");
+    int ret = fork();
+    if (ret < 0)
+    {
+        perror("fork");
+        exit(1);
+    } else if (ret == 0)
+    {
+        printf("Child process!\n");
+        execl("/bin/ls", "ls", "-l", (char *)NULL);
+    } else
+    {
+        wait(NULL);
+    }
 
     return 0;
 }
